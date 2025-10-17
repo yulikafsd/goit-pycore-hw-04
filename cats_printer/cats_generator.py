@@ -12,7 +12,7 @@ def get_script_path(filename: str) -> Path:
     return current_dir / filename
 
 
-def generate_salaries(filename: str) -> None:
+def generate_cats(filename: str) -> None:
 
     file_path = get_script_path(filename)
 
@@ -23,10 +23,11 @@ def generate_salaries(filename: str) -> None:
     try:
         with open(file_path, "w", encoding="UTF-8") as file:
             for _ in range(10):
-                fake_first = fake.first_name()
-                fake_last = fake.last_name()
-                fake_salary = fake.unique.random_int(min=1000, max=10000)
-                file.write(f"{fake_first} {fake_last},{fake_salary}\n")
+                fake_id = fake.uuid4().replace("-", "")
+                fake_name = fake.first_name()
+                fake_age = fake.random_int(min=1, max=20)
+                print(f"{fake_id},{fake_name},{fake_age}")
+                file.write(f"{fake_id},{fake_name},{fake_age}\n")
 
     except Exception as e:
         print(f"Something went wrong - {e}")
@@ -35,4 +36,4 @@ def generate_salaries(filename: str) -> None:
 
 
 if __name__ == "__main__":
-    generate_salaries("salaries.txt")
+    generate_cats("cats.txt")
