@@ -1,8 +1,9 @@
 import sys
 from pathlib import Path
+import sys
 
 
-# Create absolute path
+# Create absolute path having relative
 def get_absolute_file_path(relative_path: str) -> Path:
     script_directory = Path(sys.argv[0]).resolve().parent
     absolute_path = script_directory / relative_path

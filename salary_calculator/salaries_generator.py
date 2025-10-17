@@ -1,20 +1,21 @@
-import sys
-
 from faker import Faker
 from pathlib import Path
+import sys
+
+
+# Create absolute path having relative
+def get_absolute_file_path(relative_path: str) -> Path:
+    script_directory = Path(sys.argv[0]).resolve().parent
+    absolute_path = script_directory / relative_path
+    return absolute_path
 
 
 fake = Faker("uk_UA")
 
 
-def get_script_path(filename: str) -> Path:
-    current_dir = Path(sys.argv[0]).resolve().parent
-    return current_dir / filename
-
-
 def generate_salaries(filename: str) -> None:
 
-    file_path = get_script_path(filename)
+    file_path = get_absolute_file_path(filename)
 
     if file_path.is_file():
         print("There is a file with such a name")
