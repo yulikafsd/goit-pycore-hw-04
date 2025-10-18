@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 from colorama import Fore, init
 
@@ -13,13 +14,22 @@ FILE_ICON = "📜"
 def visualise_dir(path, prefix=""):
 
     if not path.exists():
-        print(f"There is no path: {path}")
+        print(Fore.RED + f"There is no path: {path}")
+        return
+
+    if not path.is_dir():
+        print(Fore.RED + f"{path} is not a directory")
         return
 
     if not prefix:
         print(f"{DIR_ICON} {Fore.CYAN}{path.name}")
 
-    files = sorted(list(path.iterdir()))
+    try:
+        files = sorted(list(path.iterdir()))
+
+    except PermissionError:
+        print(Fore.RED + f"Access denied: {path}")
+        return
 
     for index, file in enumerate(files):
         is_last = index == (len(files) - 1)
@@ -34,4 +44,10 @@ def visualise_dir(path, prefix=""):
 
 
 if __name__ == "__main__":
-    visualise_dir(Path("./cats_printer"))
+
+    if len(sys.argv) != 2:
+        print("Please enter command: python tree.py <directory_path>")
+        sys.exit(1)
+
+    directory = Path(sys.argv[1])
+    visualise_dir(directory)
